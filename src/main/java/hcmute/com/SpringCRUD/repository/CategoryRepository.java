@@ -7,11 +7,10 @@ import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Optional;
+
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-
-        List<Category> findByCategoryname(String name);
-
-        Page<Category> findByCategorynameContaining(String name, Pageable pageable);
+        Optional<Category> findCategoriesByCategoryname(String categoryname);
 }

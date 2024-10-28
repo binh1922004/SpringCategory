@@ -19,5 +19,8 @@ public class Category {
         private int id;
         @Column(name = "category_name", length = 200, columnDefinition = "nvarchar(200) not null")
         private String categoryname;
+        @Column(name = "category_img", length = 200, columnDefinition = "nvarchar(500)")
+        private String image;
+
 }
 
