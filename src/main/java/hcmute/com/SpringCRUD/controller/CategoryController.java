@@ -64,6 +64,6 @@ public class CategoryController {
                         return "CRUD/category_update";
                 }
                 categoryService.save(category);
-                return "CRUD/category_list";
+                return "redirect:/categories";
         }
 }
