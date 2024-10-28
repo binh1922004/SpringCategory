@@ -18,6 +18,7 @@
         <th>STT</th>
         <th>Category name</th>
         <th>Image</th>
+        <th>Modify</th>
     </tr>
 
     <tbody>
@@ -26,7 +27,11 @@
         <td th:text="${iterStat.count}"></td>
         <td th:text="${category.categoryname}"></td>
         <td>
-            <img th:src="@{path/to/dynamic/image.jpg}" alt="Dynamic Image" />
+            <img th:src="@{category.image}"/>
+        </td>
+        <td>
+            <a th:href="@{/categories/edit/{id}(id=${category.id})}" class="center">Edit</a>
+            <a th:href="@{/categories/delete/{id}(id=${category.id})}" class="center">Delete</a>
         </td>
     </tr>
 
