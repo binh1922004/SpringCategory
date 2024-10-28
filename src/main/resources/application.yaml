@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /CRUD
+
+spring:
+  datasource:
+    url: "jdbc:mysql://localhost:3306/demo"
+    username: root
+    password: 10040109
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  thymeleaf:
+    cache: false
+test:
+  hello: "Hello"
