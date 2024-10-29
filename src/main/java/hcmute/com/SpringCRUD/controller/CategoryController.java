@@ -5,6 +5,8 @@ import hcmute.com.SpringCRUD.entity.Category;
 import hcmute.com.SpringCRUD.service.imp.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Binding;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/categories")
@@ -21,11 +26,8 @@ public class CategoryController {
         @Autowired
         CategoryService categoryService;
         @GetMapping
-        public String getAll(ModelMap modelMap){
-                List<Category> list = categoryService.findAll();
-                System.out.println(list.size());
-                modelMap.addAttribute("list", list);
-                return "CRUD/category_list";
+        public String getAll(){
+                return "redirect:/categories/find";
         }
 
         @GetMapping("/signup")
@@ -65,5 +67,26 @@ public class CategoryController {
                 }
                 categoryService.save(category);
                 return "redirect:/categories";
+        }
+
+        @GetMapping("/find")
+        public String listCategory(Model model,
+                                   @RequestParam("page") Optional<Integer> page,
+                                   @RequestParam("size") Optional<Integer> size){
+                int currentPage = page.orElse(1);
+                int pageSize = size.orElse(5);
+
+                Page<Category> categoryPage = categoryService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+                System.out.println(categoryPage.getSize());
+                model.addAttribute("categoryPage", categoryPage);
+                int totalPages = categoryPage.getTotalPages();
+
+                if (totalPages > 0){
+                        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                                .boxed()
+                                .collect(Collectors.toList());
+                        model.addAttribute("pageNumbers", pageNumbers);
+                }
+                return "CRUD/category_page";
         }
 }

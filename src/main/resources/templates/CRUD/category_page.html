@@ -13,36 +13,37 @@
 <body>
 <header th:replace="/layout/header :: header"></header>
 
-
 <a th:href="@{/categories/signup}">Add Category</a>
-
 <table class="table">
     <tr>
         <th>STT</th>
         <th>Category name</th>
         <th>Image</th>
-        <th>Modify</th>
     </tr>
 
     <tbody>
-    <tbody>
-    <tr th:each="category, iterStat : ${list}">
-        <td th:text="${iterStat.count}"></td>
-        <td th:text="${category.categoryname}"></td>
-        <td>
-            <img style="width: 100px; height: 100px;" th:src="${category.image}"/>
-        </td>
-        <td>
-            <a th:href="@{/categories/edit/{id}(id=${category.id})}" class="center">Edit</a>
-            <a th:href="@{/categories/delete/{id}(id=${category.id})}" class="center">Delete</a>
-        </td>
-    </tr>
-
-
+        <tr th:each="category, iterStat : ${categoryPage.content}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${category.categoryname}"></td>
+            <td>
+                <img style="width: 100px; height: 100px;" th:src="${category.image}"/>
+            </td>
+        </tr>
     </tbody>
 </table>
 
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
 
+        <li class="page-item" th:if="${categoryPage.totalPages > 0}"
+            th:each="pageNumber : ${pageNumbers}">
+            <a class="page-link"
+                th:href="@{/categories/find(size=${categoryPage.getSize()}, page=${pageNumber})}"
+                th:text="${pageNumber}">
+            </a>
+        </li>
+    </ul>
+</nav>
 <footer th:replace="/layout/footer :: footer"></footer>
 </body>
 </html>

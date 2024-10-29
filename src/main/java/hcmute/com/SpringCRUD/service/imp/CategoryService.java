@@ -5,11 +5,10 @@ import hcmute.com.SpringCRUD.repository.CategoryRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -53,5 +52,10 @@ public class CategoryService implements hcmute.com.SpringCRUD.service.ICategoryS
                 return categoryRepository.findCategoriesByCategoryname(categoryname);
         }
 
-
+        @Override
+        public Page<Category> findPaginated(Pageable pageable){
+                int pageSize = pageable.getPageSize();
+                int currentPage = pageable.getPageNumber();
+                return categoryRepository.findAll(pageable);
+        }
 }
