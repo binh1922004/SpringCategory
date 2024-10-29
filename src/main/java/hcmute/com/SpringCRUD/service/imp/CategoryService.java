@@ -53,9 +53,14 @@ public class CategoryService implements hcmute.com.SpringCRUD.service.ICategoryS
         }
 
         @Override
-        public Page<Category> findPaginated(Pageable pageable){
+        public Page<Category> paginated(Pageable pageable){
                 int pageSize = pageable.getPageSize();
                 int currentPage = pageable.getPageNumber();
                 return categoryRepository.findAll(pageable);
+        }
+
+        @Override
+        public Page<Category> searchKeyword(String keyword, Pageable pageable) {
+                return categoryRepository.searchByKeyword(keyword, pageable);
         }
 }

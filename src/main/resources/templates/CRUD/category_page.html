@@ -14,6 +14,10 @@
 <header th:replace="/layout/header :: header"></header>
 
 <a th:href="@{/categories/signup}">Add Category</a>
+<form action="#" th:action="@{/categories/find}" method="get">
+    <input type="text" name="keyword" placeholder="Search categories..." />
+    <button type="submit">Search</button>
+</form>
 <table class="table">
     <tr>
         <th>STT</th>

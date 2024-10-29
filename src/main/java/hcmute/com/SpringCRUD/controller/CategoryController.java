@@ -13,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.Binding;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -71,12 +70,23 @@ public class CategoryController {
 
         @GetMapping("/find")
         public String listCategory(Model model,
+                                   @RequestParam("keyword") Optional<String> keyword,
                                    @RequestParam("page") Optional<Integer> page,
                                    @RequestParam("size") Optional<Integer> size){
                 int currentPage = page.orElse(1);
                 int pageSize = size.orElse(5);
 
-                Page<Category> categoryPage = categoryService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+
+                Page<Category> categoryPage;
+
+                String keywordSearch = keyword.orElse("");
+                if (keywordSearch.equals("")){
+                        categoryPage = categoryService.paginated(PageRequest.of(currentPage - 1, pageSize));
+                }
+                else{
+                        categoryPage = categoryService.searchKeyword(keywordSearch, PageRequest.of(currentPage - 1, pageSize));
+                }
+
                 System.out.println(categoryPage.getSize());
                 model.addAttribute("categoryPage", categoryPage);
                 int totalPages = categoryPage.getTotalPages();

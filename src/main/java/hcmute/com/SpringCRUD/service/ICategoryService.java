@@ -22,5 +22,6 @@ public interface ICategoryService {
         List<Category> findAll(Sort sort);
 
         Optional<Category> findCategoriesByCategoryname(String categoryname);
-        public Page<Category> findPaginated(Pageable pageable);
+        public Page<Category> paginated(Pageable pageable);
+        public Page<Category> searchKeyword(String keyword, Pageable pageable);
 }
